@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "langchain-qwq"
-version = "0.2.1"
+version = "1.0.0"
 description = "An integration package connecting Qwen 3, QwQ and LangChain"
 authors = [
   "Yiğit Bekir Kaya, PhD <yigit353@gmail.com>",
@@ -37,12 +37,11 @@ disallow_untyped_defs = true
 "Release Notes" = "https://github.com/langchain-ai/langchain/releases?q=tag%3A%22qwq%3D%3D0%22&expanded=true"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
-langchain-core = "^0.3.15"
-openai = "^1.70.0"
-langchain-openai = "^0.3.11"
-python-dotenv = "^1.1.0"
-json-repair = "^0.40.0"
+python = ">=3.10,<4.0"
+langchain = "^1.0.5"
+langchain-openai = "^1.0.2"
+json-repair = "^0.53.0"
+
 
 [tool.poetry.group.docs]
 optional = true
