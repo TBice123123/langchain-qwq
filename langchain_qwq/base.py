@@ -310,7 +310,7 @@ class _BaseChatQwen(BaseChatOpenAI):
             if schema and (isinstance(schema, dict) or is_pydantic_schema):
                 schema_dict = convert_to_json_schema(schema)
             else:
-                schema_dict = schema
+                schema_dict = schema  # type: ignore
 
             # Format the schema for the prompt
             formatted_schema = json.dumps(schema_dict, indent=2)
@@ -375,7 +375,7 @@ Example of a good response format:
                     ]
 
             output_parser = (
-                PydanticOutputParser(pydantic_object=schema)  # type: ignore[arg-type]
+                PydanticOutputParser(pydantic_object=schema)  # type: ignore[arg-type, assignment]
                 if is_pydantic_schema
                 else JsonOutputParser()
             )

@@ -2,11 +2,11 @@
 
 from typing import Any, Type
 
+import pytest
 from dotenv import load_dotenv
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessageChunk
 from langchain_tests.integration_tests import ChatModelIntegrationTests
-import pytest
 
 from langchain_qwq.chat_models import ChatQwen, ChatQwQ
 
@@ -15,7 +15,7 @@ load_dotenv()
 
 class BaseChatQwenIntegrationTests(ChatModelIntegrationTests):
     @pytest.fixture
-    def model(self, request: Any) -> BaseChatModel:
+    def model(self, request: Any) -> BaseChatModel:  # type: ignore[override]
         """Model fixture."""
         extra_init_params = getattr(request, "param", None) or {}
         if extra_init_params.get("output_version") == "v1":
@@ -39,7 +39,7 @@ class BaseChatQwenIntegrationTests(ChatModelIntegrationTests):
 
 class TestChatQwQIntegration(BaseChatQwenIntegrationTests):
     @pytest.fixture
-    def model(self, request: Any) -> BaseChatModel:
+    def model(self, request: Any) -> BaseChatModel:  # type: ignore[override]
         """Model fixture."""
         extra_init_params = getattr(request, "param", None) or {}
         if extra_init_params.get("output_version") == "v1":
@@ -72,14 +72,15 @@ class TestChatQwQIntegration(BaseChatQwenIntegrationTests):
             assert isinstance(chunk, AIMessageChunk)
             assert isinstance(chunk.content, str | list)
             num_chunks += 1
-            full = chunk if full is None else full + chunk
+            full = chunk if full is None else full + chunk  # type: ignore
         assert num_chunks > 0
         assert isinstance(full, AIMessageChunk)
         assert full.content
-        assert len(full.content_blocks) == 2
-        # Qwen QwQ models are forced to think, so content_blocks are 2, and the first one is reasoning_content.
-        assert full.content_blocks[0]["type"] == "reasoning"
-        assert full.content_blocks[1]["type"] == "text"
+        assert len(full.content_blocks) == 2  # type: ignore[attr-defined]
+        # Qwen QwQ models are forced to think, so content_blocks are 2,
+        # and the first one is reasoning_content.
+        assert full.content_blocks[0]["type"] == "reasoning"  # type: ignore[attr-defined]
+        assert full.content_blocks[1]["type"] == "text"  # type: ignore[attr-defined]
 
     @pytest.mark.xfail(reason="Custom implementation for QwQ model")
     async def test_astream(self, model: BaseChatModel) -> None:
@@ -90,14 +91,15 @@ class TestChatQwQIntegration(BaseChatQwenIntegrationTests):
             assert isinstance(chunk, AIMessageChunk)
             assert isinstance(chunk.content, str | list)
             num_chunks += 1
-            full = chunk if full is None else full + chunk
+            full = chunk if full is None else full + chunk  # type: ignore
         assert num_chunks > 0
         assert isinstance(full, AIMessageChunk)
         assert full.content
-        assert len(full.content_blocks) == 2
-        # Qwen QwQ models are forced to think, so content_blocks are 2, and the first one is reasoning_content.
-        assert full.content_blocks[0]["type"] == "reasoning"
-        assert full.content_blocks[1]["type"] == "text"
+        assert len(full.content_blocks) == 2  # type: ignore[attr-defined]
+        # Qwen QwQ models are forced to think, so content_blocks are 2,
+        # and the first one is reasoning_content.
+        assert full.content_blocks[0]["type"] == "reasoning"  # type: ignore[attr-defined]
+        assert full.content_blocks[1]["type"] == "text"  # type: ignore[attr-defined]
 
 
 class TestChatQwenIntegration(BaseChatQwenIntegrationTests):
