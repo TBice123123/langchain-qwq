@@ -168,6 +168,7 @@ class _BaseChatQwen(BaseChatOpenAI):
         *,
         tool_choice: Optional[Union[Dict, str, Literal["auto", "none"], bool]] = None,
         strict: Optional[bool] = None,
+        parallel_tool_calls: Optional[bool] = None,
         **kwargs: Any,
     ) -> Runnable[LanguageModelInput, AIMessage]:
         """Bind tool-like objects to this chat model.
@@ -202,7 +203,8 @@ class _BaseChatQwen(BaseChatOpenAI):
 
         """  # noqa: E501
 
-        if kwargs.get("parallel_tool_calls") is None:
+        if parallel_tool_calls is None:
+            # if kwargs.get("parallel_tool_calls") is None:
             kwargs["parallel_tool_calls"] = True
 
         if tool_choice:
